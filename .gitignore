@@ -1,5 +1,5 @@
 node_modules
 dist
-./backend/.env
-.env.e2e
+backend/.env
+backend/.env.e2e
 .vscode
