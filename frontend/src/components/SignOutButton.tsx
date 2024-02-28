@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "react-query";
 import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
+import { BiLogOut } from "react-icons/bi";
 
 const SignOutButton = () => {
     const queryClient = useQueryClient();
@@ -24,8 +25,9 @@ const SignOutButton = () => {
     return (
         <button
             onClick={handleClick}
-            className="flex bg-white items-center text-amber-500 px-3 font-bold hover:bg-amber-900"
+            className="flex bg-white items-center justify-center text-amber-500 px-1 font-bold hover:bg-amber-900"
         >
+            <BiLogOut />
             Sign Out
         </button>
     );
