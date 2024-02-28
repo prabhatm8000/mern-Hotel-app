@@ -4,6 +4,8 @@ import TypeSection from "./TypeSection";
 import FacilitiesSection from "./FacilitiesSection";
 import GuestSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
+import { HotelType } from "../../../../backend/src/shared/types";
+import { useEffect } from "react";
 
 export type HotelFormData = {
     name: string;
@@ -16,6 +18,7 @@ export type HotelFormData = {
     starRating: number;
     facilities: string[];
     imageFiles: FileList;
+    imageUrls: string[];
     adultCount: number;
     childrenCount: number;
 };
@@ -23,14 +26,25 @@ export type HotelFormData = {
 type ManageHotelFormProps = {
     onSave: (hoteFormData: FormData) => void;
     isLoading: boolean;
+    hotel?: HotelType;
 };
 
-const ManageHotelForm = ({ onSave, isLoading }: ManageHotelFormProps) => {
+const ManageHotelForm = ({ onSave, isLoading, hotel }: ManageHotelFormProps) => {
     const formMethods = useForm<HotelFormData>();
-    const { handleSubmit } = formMethods;
+    const { handleSubmit, reset } = formMethods;
+
+    useEffect(() => {
+        reset(hotel);
+    }, [hotel, reset]);
 
     const onSubmit = handleSubmit((formDataJson: HotelFormData) => {
         const formData = new FormData();
+
+        if (hotel) {
+            // for edit page
+            formData.append("hotelId", hotel._id);
+        }
+
         formData.append("name", formDataJson.name);
         formData.append("city", formDataJson.city);
         formData.append("state", formDataJson.state);
@@ -47,6 +61,14 @@ const ManageHotelForm = ({ onSave, isLoading }: ManageHotelFormProps) => {
         formDataJson.facilities.forEach((item, i) => {
             formData.append(`facilities[${i}]`, item);
         });
+
+        // for edit page
+        // adding the pre existing images
+        if (formDataJson.imageUrls) {
+            formDataJson.imageUrls.forEach((item, i) => {
+                formData.append(`imageUrls[${i}]`, item)
+            })
+        }
 
         // FileList not allows forEach,
         // so, making array out of FileList

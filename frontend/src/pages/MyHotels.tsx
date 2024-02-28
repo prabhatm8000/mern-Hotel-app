@@ -38,25 +38,25 @@ const MyHotels = () => {
                             <div className="whitespace-pre-line">
                                 {item.description}
                             </div>
-                            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
-                                <div className="border border-slate-300 rounded-sm p-3 flex items-center ">
+                            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+                                <div className="border border-slate-300 rounded-sm p-2 flex items-center ">
                                     <BsMap className="mr-1" />
                                     {item.city}, {item.state}, {item.country}
                                 </div>
-                                <div className="border border-slate-300 rounded-sm p-3 flex items-center ">
+                                <div className="border border-slate-300 rounded-sm p-2 flex items-center ">
                                     <BsBuilding className="mr-1" />
                                     {item.type}
                                 </div>
-                                <div className="border border-slate-300 rounded-sm p-3 flex items-center ">
+                                <div className="border border-slate-300 rounded-sm p-2 flex items-center ">
                                     <BiMoney className="mr-1" />₹
                                     {item.pricePerNight} per night
                                 </div>
-                                <div className="border border-slate-300 rounded-sm p-3 flex items-center ">
+                                <div className="border border-slate-300 rounded-sm p-2 flex items-center ">
                                     <BiHotel className="mr-1" />
                                     {item.adultCount} adults,{" "}
                                     {item.childrenCount} children
                                 </div>
-                                <div className="border border-slate-300 rounded-sm p-3 flex items-center ">
+                                <div className="border border-slate-300 rounded-sm p-2 flex items-center ">
                                     <BiStar className="mr-1" />
                                     {item.starRating} Star Rating
                                 </div>

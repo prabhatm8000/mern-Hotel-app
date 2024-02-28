@@ -56,25 +56,49 @@ test("should allow user to add a hotel", async ({ page }) => {
 
     await page.getByRole("button", { name: "Save" }).click();
 
-    await expect(page.getByText('Hotel Saved')).toBeVisible();
+    await expect(page.getByText("Hotel Saved")).toBeVisible();
 });
 
-test("should display my hotels", async ({page}) => {
+test("should display my hotels", async ({ page }) => {
     await page.goto(`${UI_URL}my-hotels`);
 
-    await expect(page.getByText('Test Hotel')).toBeVisible();
+    await expect(page.getByText("Test Hotel").first()).toBeVisible();
 
-    // text should not to big, otherwise it fill the code with unnecessary shit 
+    // text should not to big, otherwise it fill the code with unnecessary shit
     // (text description was pretty small, so i put all)
-    await expect(page.getByText('This is a test description')).toBeVisible();
-    
-    await expect(page.getByText('Test city, Test state, Test country')).toBeVisible();
-    await expect(page.getByText('Budget')).toBeVisible();
-    await expect(page.getByText('₹2000 per night')).toBeVisible();
-    await expect(page.getByText('2 adults, 3 children')).toBeVisible();
-    await expect(page.getByText('3 Star Rating')).toBeVisible();
+    await expect(page.getByText("This is a test description").first()).toBeVisible();
 
+    await expect(
+        page.getByText("Test city, Test state, Test country").first()
+    ).toBeVisible();
+    await expect(page.getByText("Budget").first()).toBeVisible();
+    await expect(page.getByText("₹2000 per night").first()).toBeVisible();
+    await expect(page.getByText("2 adults, 3 children").first()).toBeVisible();
+    await expect(page.getByText("3 Star Rating").first()).toBeVisible();
 
-    await expect(page.getByRole('link', {name: "View Details"})).toBeVisible;
-    await expect(page.getByRole('link', {name: "Add Hotel"})).toBeVisible;
-})
+    await expect(page.getByRole("link", { name: "View Details" }).first()).toBeVisible;
+    await expect(page.getByRole("link", { name: "Add Hotel" }).first()).toBeVisible;
+});
+
+test("should allow user to edit hotel", async ({ page }) => {
+    await page.goto(`${UI_URL}my-hotels`);
+
+    await page.getByRole("link", { name: "View Details" }).first().click();
+    await page.waitForSelector("[name=name]", { state: "attached" });
+
+    await expect(page.locator("[name=name]")).toHaveValue("Test Hotel");
+    await page.locator("[name=name]").fill("Test Hotel updated!");
+
+    await page.getByRole("button", { name: "Save" }).click();
+    await expect(page.getByText("Hotel Saved")).toBeVisible();
+
+    // resetting
+    // to make test more robust
+    await page.reload();
+
+    await expect(page.locator("[name=name]")).toHaveValue("Test Hotel updated!");
+    await page.locator("[name=name]").fill("Test Hotel");
+
+    await page.getByRole("button", { name: "Save" }).click();
+    await expect(page.getByText("Hotel Saved")).toBeVisible();
+});
