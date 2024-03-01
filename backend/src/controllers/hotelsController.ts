@@ -8,10 +8,35 @@ export const searchHotel = async (req: Request, res: Response) => {
             req.query.page ? req.query.page.toString() : "1"
         );
         const skip = (pageNumber - 1) * pageSize;
+        const query = constructSearchQuery(req.query);
 
-        const hotels = await Hotel.find().skip(skip).limit(pageSize);
+        console.log(query);
+        
 
-        const total = await Hotel.countDocuments();
+        let sortOptions = {};
+        switch (req.query.sortOption) {
+            case "starRating":
+                sortOptions = {
+                    starRating: -1,
+                };
+                break;
+            case "pricePerNightAsc":
+                sortOptions = {
+                    pricePerNight: 1,
+                };
+                break;
+            case "pricePerNightDsc":
+                sortOptions = {
+                    pricePerNight: -1,
+                };
+                break;
+        }
+
+        const hotels = await Hotel.find(query)
+            .sort(sortOptions)
+            .skip(skip)
+            .limit(pageSize);
+        const total = await Hotel.countDocuments(query);
 
         const response = {
             data: hotels,
@@ -27,4 +52,60 @@ export const searchHotel = async (req: Request, res: Response) => {
         console.log(error);
         res.status(500).json({ message: "Something went wrong" });
     }
+};
+
+const constructSearchQuery = (queryParams: any) => {
+    let constructedQuery: any = {};
+
+    if (queryParams.destination) {
+        constructedQuery.$or = [
+            { city: new RegExp(queryParams.destination, "i") },
+            { state: new RegExp(queryParams.destination, "i") },
+            { country: new RegExp(queryParams.destination, "i") },
+        ];
+    }
+
+    if (queryParams.adultCount) {
+        constructedQuery.adultCount = {
+            $gte: parseInt(queryParams.adultCount),
+        };
+    }
+
+    if (queryParams.childCount) {
+        constructedQuery.childCount = {
+            $gte: parseInt(queryParams.childCount),
+        };
+    }
+
+    if (queryParams.facilities) {
+        constructedQuery.facilities = {
+            $all: Array.isArray(queryParams.facilities)
+                ? queryParams.facilities
+                : [queryParams.facilities],
+        };
+    }
+
+    if (queryParams.types) {
+        constructedQuery.type = {
+            $in: Array.isArray(queryParams.types)
+                ? queryParams.types
+                : [queryParams.types],
+        };
+    }
+
+    if (queryParams.stars) {
+        constructedQuery.starRating = {
+            $in: Array.isArray(queryParams.stars)
+                ? queryParams.stars.map((item: string) => parseInt(item))
+                : [parseInt(queryParams.stars)],
+        };
+    }
+
+    if (queryParams.maxPrice) {
+        constructedQuery.pricePerNight = {
+            $lte: parseInt(queryParams.maxPrice.toString()),
+        };
+    }
+
+    return constructedQuery;
 };

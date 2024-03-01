@@ -40,7 +40,7 @@ const ImagesSection = () => {
                                         onClick={(e) =>
                                             handleDeleteBtn(e, item)
                                         }
-                                        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-25 opacity-0 group-hover:opacity-100 text-white"
+                                        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 text-white"
                                     >
                                         Delete
                                     </button>

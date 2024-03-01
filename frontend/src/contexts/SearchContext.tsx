@@ -5,15 +5,15 @@ type SearchContextType = {
     checkIn: Date;
     checkOut: Date;
     adultCount: number;
-    childrenCount: number;
+    childCount: number;
     hotelId: string;
     saveSearchValues: (
         destination: string,
         checkIn: Date,
         checkOut: Date,
         adultCount: number,
-        childrenCount: number,
-        hotelId: string
+        childCount: number,
+        hotelId?: string
     ) => void;
 };
 
@@ -32,7 +32,7 @@ export const SearchContextProvider = ({
     const [checkIn, setCheckIn] = useState<Date>(new Date());
     const [checkOut, setCheckOut] = useState<Date>(new Date());
     const [adultCount, setAdultCount] = useState<number>(1);
-    const [childrenCount, setChildrenCount] = useState<number>(0);
+    const [childCount, setChildCount] = useState<number>(0);
     const [hotelId, setHotelId] = useState<string>("");
 
     const saveSearchValues = (
@@ -40,14 +40,14 @@ export const SearchContextProvider = ({
         checkIn: Date,
         checkOut: Date,
         adultCount: number,
-        childrenCount: number,
+        childCount: number,
         hotelId?: string
     ) => {
         setDestionation(destination);
         setCheckIn(checkIn);
         setCheckOut(checkOut);
         setAdultCount(adultCount);
-        setChildrenCount(childrenCount);
+        setChildCount(childCount);
         if (hotelId) {
             setHotelId(hotelId);
         }
@@ -60,7 +60,7 @@ export const SearchContextProvider = ({
                 checkIn,
                 checkOut,
                 adultCount,
-                childrenCount,
+                childCount,
                 hotelId,
                 saveSearchValues,
             }}
@@ -72,5 +72,5 @@ export const SearchContextProvider = ({
 
 export const useSearchContxt = () => {
     const context = useContext(SearchContext);
-    return context;
+    return context as SearchContextType;
 };

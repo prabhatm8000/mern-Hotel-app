@@ -54,7 +54,7 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: ManageHotelFormProps) => 
         formData.append("pricePerNight", formDataJson.pricePerNight.toString());
         formData.append("starRating", formDataJson.starRating.toString());
         formData.append("adultCount", formDataJson.adultCount.toString());
-        formData.append("childrenCount", formDataJson.childrenCount.toString());
+        formData.append("childCount", formDataJson.childrenCount.toString());
 
         // facilities -> array
         // handling array in form data
