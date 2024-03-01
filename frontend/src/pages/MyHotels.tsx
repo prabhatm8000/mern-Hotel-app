@@ -54,7 +54,7 @@ const MyHotels = () => {
                                 <div className="border border-slate-300 rounded-sm p-2 flex items-center ">
                                     <BiHotel className="mr-1" />
                                     {item.adultCount} adults,{" "}
-                                    {item.childrenCount} children
+                                    {item.childCount} children
                                 </div>
                                 <div className="border border-slate-300 rounded-sm p-2 flex items-center ">
                                     <BiStar className="mr-1" />
