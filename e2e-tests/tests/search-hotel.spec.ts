@@ -25,9 +25,21 @@ test.beforeEach(async ({ page }) => {
 
 test("should show search result", async ({ page }) => {
     await page.goto(`${UI_URL}`);
+
     await page.getByPlaceholder("Where are you going?").fill("test country");
-    await page.getByRole("button", {name: "Search"}).click();
+    await page.getByRole("button", { name: "Search" }).click();
 
     await expect(page.getByText("Hotels found in test country")).toBeVisible();
     await expect(page.getByText("Test Hotel").first()).toBeVisible();
+});
+
+test("should show hotel detail", async ({ page }) => {
+    await page.goto(`${UI_URL}`);
+
+    await page.getByPlaceholder("Where are you going?").fill("test country");
+    await page.getByRole("button", { name: "Search" }).click();
+    await page.getByText("Test Hotel").first().click();
+
+    await expect(page).toHaveURL(/detail/);
+    await expect(page.getByRole("button", { name: "Book Now" })).toBeVisible();
 });
