@@ -46,7 +46,7 @@ test("should allow user to add a hotel", async ({ page }) => {
     await page.getByLabel("Parking").check();
 
     await page.locator("[name=adultCount]").fill("2");
-    await page.locator("[name=childrenCount]").fill("3");
+    await page.locator("[name=childCount]").fill("3");
 
     // handling image upload
     await page.setInputFiles("[name=imageFiles]", [

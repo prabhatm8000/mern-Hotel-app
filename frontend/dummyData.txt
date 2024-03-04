@@ -1,0 +1,1 @@
+(india)stripe_test_card_no=4000003560000008

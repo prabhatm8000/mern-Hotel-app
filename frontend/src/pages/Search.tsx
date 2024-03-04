@@ -8,6 +8,7 @@ import StarRatingFilter from "../components/StarRatingFilter";
 import HotelTypesFilter from "../components/HotelTypesFilter";
 import FacilitiesFilter from "../components/FacilitiesFilter";
 import PriceFilter from "../components/PriceFilter";
+import ReactLoading from "react-loading";
 
 const Search = () => {
     const search = useSearchContxt();
@@ -34,8 +35,9 @@ const Search = () => {
         sortOption,
     };
 
-    const { data: hotelData } = useQuery(["searchHotel", searchParams], () =>
-        apiClient.searchHotels(searchParams)
+    const { data: hotelData, isFetching } = useQuery(
+        ["searchHotel", searchParams],
+        () => apiClient.searchHotels(searchParams)
     );
 
     const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,6 +127,18 @@ const Search = () => {
                         </option>
                     </select>
                 </div>
+
+                {isFetching && (
+                    <div className="flex justify-center items-center">
+                        <ReactLoading
+                            type={"spin"}
+                            color={"#F59E0B"}
+                            height={"50px"}
+                            width={"50px"}
+                        />
+                    </div>
+                )}
+
                 {hotelData?.data.map((item, i) => {
                     return (
                         <div key={i}>

@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import * as apiClient from "../api-client";
 import { AiFillStar } from "react-icons/ai";
 import GuestInfoForm from "../forms/GuestInfoForm/GuestInfoForm";
+import ReactLoading from "react-loading";
 
 const Details = () => {
     const { hotelId } = useParams();
 
-    const { data: hotel } = useQuery(
+    const { data: hotel, isFetching } = useQuery(
         "getHotelById",
         () => apiClient.getHotelById(hotelId as string),
         {
@@ -18,6 +19,19 @@ const Details = () => {
 
     if (!hotel) {
         return <></>;
+    }
+
+    if (isFetching) {
+        return (
+            <div className="flex justify-center items-center">
+                <ReactLoading
+                    type={"spin"}
+                    color={"#F59E0B"}
+                    height={"50px"}
+                    width={"50px"}
+                />
+            </div>
+        );
     }
 
     return (

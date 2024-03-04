@@ -20,7 +20,7 @@ export type HotelFormData = {
     imageFiles: FileList;
     imageUrls: string[];
     adultCount: number;
-    childrenCount: number;
+    childCount: number;
 };
 
 type ManageHotelFormProps = {
@@ -54,7 +54,7 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: ManageHotelFormProps) => 
         formData.append("pricePerNight", formDataJson.pricePerNight.toString());
         formData.append("starRating", formDataJson.starRating.toString());
         formData.append("adultCount", formDataJson.adultCount.toString());
-        formData.append("childCount", formDataJson.childrenCount.toString());
+        formData.append("childCount", formDataJson.childCount.toString());
 
         // facilities -> array
         // handling array in form data

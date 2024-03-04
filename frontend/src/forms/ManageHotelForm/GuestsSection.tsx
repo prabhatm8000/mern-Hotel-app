@@ -33,13 +33,13 @@ const GuestSection = () => {
                         type="number"
                         min={0}
                         className="border rounded border-gray-300 w-full py-3 px-2 font-normal"
-                        {...register("childrenCount", {
+                        {...register("childCount", {
                             required: "This feild is required",
                         })}
                     />
-                    {errors.childrenCount && (
+                    {errors.childCount && (
                         <span className="text-red-500 font-normal">
-                            {errors.childrenCount.message}
+                            {errors.childCount.message}
                         </span>
                     )}
                 </label>

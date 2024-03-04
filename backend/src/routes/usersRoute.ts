@@ -1,6 +1,8 @@
 import express from 'express';
 import { check } from 'express-validator';
 import { register } from '../controllers/usersController';
+import verifyToken from '../middleware/auth';
+import { myUserData } from '../controllers/myUserData';
 
 const usersRoute = express.Router();
 
@@ -12,6 +14,7 @@ usersRoute.post("/register", [
     check("lastName", "Last Name is required").isString(),
 ], register)
 
+usersRoute.get("/me", verifyToken, myUserData);
 
 
 export default usersRoute

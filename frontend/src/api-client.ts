@@ -1,6 +1,12 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
-import { HotelSearchResponse, HotelType } from "../../backend/src/shared/types";
+import {
+    HotelSearchResponse,
+    HotelType,
+    PaymentIntentResponse,
+    UserType,
+} from "../../backend/src/shared/types";
+import { BookingFormData } from "./forms/BookingForm/BookingForm";
 
 // env variable for vite react
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
@@ -48,6 +54,18 @@ export const validateToken = async () => {
 
     if (!response.ok) {
         throw new Error("Token invalid");
+    }
+
+    return await response.json();
+};
+
+export const getCurrentUser = async (): Promise<UserType> => {
+    const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+        credentials: "include",
+    });
+
+    if (!response.ok) {
+        throw new Error("Error getting data");
     }
 
     return await response.json();
@@ -174,4 +192,48 @@ export const getHotelById = async (hotelId: string): Promise<HotelType> => {
     }
 
     return await response.json();
+};
+
+export const createPaymentIntent = async (
+    hotelId: string,
+    numberOfNights: string
+): Promise<PaymentIntentResponse> => {
+    const response = await fetch(
+        `${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,
+        {
+            body: JSON.stringify({ numberOfNights }),
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Error getting payment intent");
+    }
+
+    return await response.json();
+};
+
+export const createBooking = async (formData: BookingFormData) => {
+    
+    const response = await fetch(
+        `${API_BASE_URL}/api/hotels/${formData.hotelId}/bookings`,
+        {
+            body: JSON.stringify(formData),
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Error getting payment intent");
+    }
+    // console.log(await response.json());
+    
 };
