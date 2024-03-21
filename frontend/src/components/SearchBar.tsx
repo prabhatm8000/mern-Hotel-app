@@ -5,6 +5,7 @@ import { BsFilePerson } from "react-icons/bs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
+import { BiCalendar } from "react-icons/bi";
 
 const SearchBar = () => {
     const search = useSearchContxt();
@@ -14,9 +15,7 @@ const SearchBar = () => {
     const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
     const [checkOut, setCheckOut] = useState<Date>(search.checkOut);
     const [adultCount, setAdultCount] = useState<number>(search.adultCount);
-    const [childCount, setChildCount] = useState<number>(
-        search.childCount
-    );
+    const [childCount, setChildCount] = useState<number>(search.childCount);
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
@@ -37,9 +36,9 @@ const SearchBar = () => {
     return (
         <form
             onSubmit={handleSubmit}
-            className="-mt-8 bg-blue-700/[.80] p-3 rounded-md shadow-md grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4 items-center"
+            className="-mt-6 bg-blue-700/[.80] p-1 rounded-md shadow-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1.5fr_2fr_0.5fr] xl:grid-cols-[3fr_2fr_2fr_1fr] gap-1 items-center"
         >
-            <div className="flex flex-row items-center flex-1 bg-white p-2">
+            <div className="flex flex-row items-center flex-1 bg-white p-2 rounded-md">
                 <MdTravelExplore size={25} className="mr-2" />
                 <input
                     type="text"
@@ -50,8 +49,7 @@ const SearchBar = () => {
                 />
             </div>
 
-            <div className="flex gap-2 items-center px-2 py-1 bg-white">
-                <BsFilePerson size={25} />
+            <div className="grid grid-cols-[1fr_1fr] items-center px-2 py-1 bg-white rounded-md">
                 <label className="flex items-center">
                     Adults:
                     <input
@@ -66,7 +64,7 @@ const SearchBar = () => {
                     />
                 </label>
 
-                <label className="flex items-center">
+                <label className="flex items-center ml-1">
                     Children:
                     <input
                         type="number"
@@ -80,42 +78,41 @@ const SearchBar = () => {
                     />
                 </label>
             </div>
-            <div>
-                <DatePicker
-                    selected={checkIn}
-                    onChange={(date) => setCheckIn(date as Date)}
-                    selectsStart
-                    startDate={checkIn}
-                    endDate={checkOut}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    placeholderText="Check-in Date"
-                    className="min-w-full bg-white py-2 pl-2 focus:outline-none"
-                    wrapperClassName="min-w-full"
-                />
+            <div className="flex gap-2 items-center px-2 py-2 bg-white rounded-md">
+                <div className="flex items-center">
+                    <BiCalendar />
+                    <DatePicker
+                        selected={checkIn}
+                        onChange={(date) => setCheckIn(date as Date)}
+                        selectsStart
+                        startDate={checkIn}
+                        endDate={checkOut}
+                        minDate={minDate}
+                        maxDate={maxDate}
+                        placeholderText="Check-in Date"
+                        className="w-full focus:outline-none"
+                        wrapperClassName="ml-1 w-3/4"
+                    />
+                </div>
+                <div className="flex items-center">
+                    <BiCalendar />
+                    <DatePicker
+                        selected={checkOut}
+                        onChange={(date) => setCheckOut(date as Date)}
+                        selectsStart
+                        startDate={checkIn}
+                        endDate={checkOut}
+                        minDate={checkIn}
+                        maxDate={maxDate}
+                        placeholderText="Check-out Date"
+                        className="w-full focus:outline-none"
+                        wrapperClassName="ml-1 w-3/4"
+                    />
+                </div>
             </div>
-            <div>
-                <DatePicker
-                    selected={checkOut}
-                    onChange={(date) => setCheckOut(date as Date)}
-                    selectsStart
-                    startDate={checkIn}
-                    endDate={checkOut}
-                    minDate={checkIn}
-                    maxDate={maxDate}
-                    placeholderText="Check-out Date"
-                    className="min-w-full bg-white py-2 pl-2 focus:outline-none"
-                    wrapperClassName="min-w-full"
-                />
-            </div>
-            <div className="flex gap-2">
-                <button className=" w-2/3 bg-amber-500 h-full p-2 text-white font-bold hover:bg-amber-600">
-                    Search
-                </button>
-                <button className="material-symbols-outlined w-1/3 bg-red-500 h-full p-2 text-white font-bold hover:bg-red-600">
-                    Clear
-                </button>
-            </div>
+            <button className="rounded-md bg-amber-500 h-full p-1 text-white font-semibold text-xl hover:bg-amber-600">
+                Search
+            </button>
         </form>
     );
 };

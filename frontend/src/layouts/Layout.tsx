@@ -12,23 +12,33 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
     return (
         <div className="flex flex-col min-h-screen">
-            <div className="bg-amber-500 relative">
-                <div className="absolute opacity-30 z-0 h-full w-full">
-                    <img src={heroBanner1} className="h-full w-full object-cover" />
-                </div>
-                <div className="relative z-10">
-                    <Header />
-                    <Hero />
+            <div className="bg-gradient-to-r from-amber-600 to-amber-900 from-[600px]">
+                <div className="relative">
+                    <div className="absolute opacity-20 z-0 h-full w-full">
+                        <img
+                            src={heroBanner1}
+                            className="h-full w-full object-cover"
+                        />
+                    </div>
+                    <div className="relative z-10">
+                        <Header />
+                        <Hero />
+                    </div>
                 </div>
             </div>
+
             <div className="container mx-auto z-10">
                 <SearchBar />
             </div>
 
             <div className="container mx-auto py-10 flex-1">{children}</div>
-            <div className="bg-amber-500 relative overflow-hidden">
+
+            <div className="bg-gradient-to-r from-amber-600 from-[200px] to-amber-900 relative overflow-hidden">
                 <div className="absolute opacity-30 z-0 h-full w-full">
-                    <img src={heroBanner1} className="h-full w-full object-cover object-center" />
+                    <img
+                        src={heroBanner1}
+                        className="h-full w-full object-cover object-center"
+                    />
                 </div>
                 <div className="relative z-10">
                     <Footer />

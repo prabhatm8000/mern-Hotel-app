@@ -9,3 +9,40 @@
   'GRAD' 0,
   'opsz' 24
 }
+
+::-webkit-scrollbar {
+	width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(254 243 199);
+  border-radius: 50px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 50px;
+	background: rgb(180 83 9);
+}
+
+.fade-animate {
+  /* position: absolute; */
+  animation: fade 2s linear infinite;
+}
+
+@keyframes fade {
+  0% {
+    /* transform: translateY(-100%); */
+    opacity: 0;
+  }
+  50% {
+    /* transform: translateY(0%); */
+    opacity: 1;
+  }
+  100% {
+    /* transform: translateY(-100%); */
+    opacity: 0;
+  }
+}

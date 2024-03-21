@@ -3,6 +3,23 @@ import cloudinary from "cloudinary";
 import Hotel from "../models/hotelModel";
 import { HotelType } from "../shared/types";
 
+async function uploadImages(imageFiles: Express.Multer.File[]) {
+    const uploadPromises = imageFiles.map(async (image) => {
+        // converting image to base64 string
+        const base64 = Buffer.from(image.buffer).toString("base64");
+
+        let dataURI = `data:${image.mimetype};base64,${base64}`;
+
+        const res = await cloudinary.v2.uploader.upload(dataURI);
+
+        // returning public url for the uploaded image
+        return res.url;
+    });
+
+    const imageUrls = await Promise.all(uploadPromises);
+    return imageUrls;
+}
+
 export const addHotel = async (req: Request, res: Response) => {
     try {
         const imageFiles = req.files as Express.Multer.File[];
@@ -31,6 +48,9 @@ export const addHotel = async (req: Request, res: Response) => {
 export const getMyHotel = async (req: Request, res: Response) => {
     try {
         const hotels = await Hotel.find({ userId: req.userId });
+        const states = await Hotel.distinct("state")
+        console.log(states);
+        
         res.status(200).json(hotels);
     } catch (error) {
         console.log(error);
@@ -52,7 +72,7 @@ export const getMyHotelById = async (req: Request, res: Response) => {
     }
 };
 
-export const hotelUpdate = async (req: Request, res: Response) => {
+export const myHotelUpdate = async (req: Request, res: Response) => {
     try {
         const updatedHotel: HotelType = req.body;
         updatedHotel.lastUpdated = new Date();
@@ -87,19 +107,45 @@ export const hotelUpdate = async (req: Request, res: Response) => {
     }
 };
 
-async function uploadImages(imageFiles: Express.Multer.File[]) {
-    const uploadPromises = imageFiles.map(async (image) => {
-        // converting image to base64 string
-        const base64 = Buffer.from(image.buffer).toString("base64");
+export const myHotelDelete = async (req: Request, res: Response) => {
+    try {
+        await Hotel.findByIdAndDelete({
+            _id: req.params.hotelId,
+            userId: req.userId,
+        });
 
-        let dataURI = `data:${image.mimetype};base64,${base64}`;
+        res.status(200).json({ message: "Hotel deleted" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};
 
-        const res = await cloudinary.v2.uploader.upload(dataURI);
+export const myHotelBookings = async (req: Request, res: Response) => {
+    try {
+        const { hotelId } = req.params;
 
-        // returning public url for the uploaded image
-        return res.url;
-    });
+        // const pageSize = 5;
+        // const pageNumber = parseInt(
+        //     req.query.page ? req.query.page.toString() : "1"
+        // );
+        // const skip = (pageNumber - 1) * pageSize;
 
-    const imageUrls = await Promise.all(uploadPromises);
-    return imageUrls;
-}
+        const bookings = await Hotel.findById(
+            hotelId,
+            {
+                // bookings: { $slice: ["$bookings", 1] },
+                bookings: 1,
+                _id: 1,
+                name: 1,
+            },
+            {
+            }
+        );
+        // .skip(skip)
+        // .limit(pageSize);
+        res.status(200).json(bookings);
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+    }
+};

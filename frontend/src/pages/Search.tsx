@@ -73,7 +73,7 @@ const Search = () => {
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
-            <div className="rounded-lg bg-white/[0.8] border border-slate-300 p-5 h-fit sticky top-10">
+            <div className="rounded-lg bg-white/[0.8] border border-slate-300 p-5 h-fit top-10">
                 <div
                     className="flex pb-5 cursor-pointer select-none"
                     onClick={() => setShowFilterBy((prev) => !prev)}

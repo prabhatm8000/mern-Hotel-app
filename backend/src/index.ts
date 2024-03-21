@@ -9,6 +9,7 @@ import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 import myHotelsRouter from "./routes/myHotelsRoutes";
 import hotelsRouter from "./routes/hotels";
+import myBookingsRoute from "./routes/myBookingsRoutes";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUDE_NAME,
@@ -36,6 +37,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/users", usersRoute);
 app.use("/api/my-hotels", myHotelsRouter);
 app.use("/api/hotels", hotelsRouter);
+app.use("/api/my-bookings", myBookingsRoute);
 
 // handling non api routes (frontend)
 app.get("*", (req: Request, res: Response) => {

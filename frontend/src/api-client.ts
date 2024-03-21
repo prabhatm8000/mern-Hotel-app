@@ -1,6 +1,7 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
 import {
+    BookingType,
     HotelSearchResponse,
     HotelType,
     PaymentIntentResponse,
@@ -122,6 +123,29 @@ export const getMyHotelById = async (hotelId: string): Promise<HotelType> => {
     return await response.json();
 };
 
+export type MyHotelBookingsType = {
+    _id: string;
+    name: string;
+    bookings: BookingType[];
+};
+
+export const getMyHotelBookings = async (
+    hotelId: string
+): Promise<MyHotelBookingsType> => {
+    const response = await fetch(
+        `${API_BASE_URL}/api/my-hotels/bookings/${hotelId}`,
+        {
+            credentials: "include",
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Error getting my hotels bookings data");
+    }
+
+    return await response.json();
+};
+
 export const updateMyHotelById = async (newHoteFromData: FormData) => {
     const response = await fetch(
         `${API_BASE_URL}/api/my-hotels/${newHoteFromData.get("hotelId")}`,
@@ -133,7 +157,23 @@ export const updateMyHotelById = async (newHoteFromData: FormData) => {
     );
 
     if (!response.ok) {
-        throw new Error("Faild to update Hotel");
+        throw new Error("Failed to update Hotel");
+    }
+
+    return await response.json();
+};
+
+export const deleteMyHotelById = async (hotelId: string) => {
+    const response = await fetch(
+        `${API_BASE_URL}/api/my-hotels/${hotelId}`,
+        {
+            credentials: "include",
+            method: "DELETE",
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Failed to update Hotel");
     }
 
     return await response.json();
@@ -218,7 +258,6 @@ export const createPaymentIntent = async (
 };
 
 export const createBooking = async (formData: BookingFormData) => {
-    
     const response = await fetch(
         `${API_BASE_URL}/api/hotels/${formData.hotelId}/bookings`,
         {
@@ -235,5 +274,16 @@ export const createBooking = async (formData: BookingFormData) => {
         throw new Error("Error getting payment intent");
     }
     // console.log(await response.json());
-    
+};
+
+export const getMyBookings = async (): Promise<HotelType[]> => {
+    const response = await fetch(`${API_BASE_URL}/api/my-bookings`, {
+        credentials: "include",
+    });
+
+    if (!response.ok) {
+        throw new Error("Error getting my bookings data");
+    }
+
+    return await response.json();
 };

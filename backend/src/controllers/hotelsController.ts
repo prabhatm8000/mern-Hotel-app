@@ -3,6 +3,7 @@ import Hotel from "../models/hotelModel";
 import { validationResult } from "express-validator";
 import Stripe from "stripe";
 import { BookingType, PaymentIntentResponse } from "../shared/types";
+import User from "../models/userModel";
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY as string);
 
@@ -133,6 +134,8 @@ export const paymentIntent = async (req: Request, res: Response) => {
         const hotelId = req.params.hotelId;
         const { numberOfNights } = req.body;
 
+        const user = await User.findById(req.userId);
+
         const hotel = await Hotel.findById(hotelId);
         if (!hotel) {
             return res.status(404).json({ messgae: "Hotel not found" });
@@ -149,6 +152,7 @@ export const paymentIntent = async (req: Request, res: Response) => {
                 hotelId,
                 userId: req.userId,
             },
+            receipt_email: user?.email,
         });
 
         if (!paymentIntent.client_secret) {

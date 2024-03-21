@@ -75,7 +75,7 @@ const ManageHotelForm = ({ onSave, isLoading, hotel }: ManageHotelFormProps) => 
         Array.from(formDataJson.imageFiles).forEach((item) => {
             formData.append("imageFiles", item);
         });
-
+        
         // saving (sending to api)
         onSave(formData);
     });
