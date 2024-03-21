@@ -1,7 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useSearchContxt } from "../contexts/SearchContext";
 import { MdTravelExplore } from "react-icons/md";
-import { BsFilePerson } from "react-icons/bs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
