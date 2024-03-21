@@ -1,4 +1,8 @@
-Mern Hotel is an online Hotel Booking web app.
+Mern Hotel is a basic online Hotel Booking web app with stripe for payments.
+
+Demo
+[Click here](https://mern-hotel-app-uz60.onrender.com/)
+
 ## Technology stack:
 - Typescript
 - Express.js (Backend)

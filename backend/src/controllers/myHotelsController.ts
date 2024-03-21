@@ -48,9 +48,6 @@ export const addHotel = async (req: Request, res: Response) => {
 export const getMyHotel = async (req: Request, res: Response) => {
     try {
         const hotels = await Hotel.find({ userId: req.userId });
-        const states = await Hotel.distinct("state")
-        console.log(states);
-        
         res.status(200).json(hotels);
     } catch (error) {
         console.log(error);
